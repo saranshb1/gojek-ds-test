@@ -2,6 +2,7 @@
 .PHONY: setup_env remove_env data features train predict run clean test
 PROJECT_NAME=work-at-gojek
 
+
 ifeq ($(OS),Windows_NT)
     HAS_PYENV=False
     CONDA_ROOT=$(shell conda info --base)
@@ -21,7 +22,8 @@ endif
 setup_env:
 ifeq ($(OS),Windows_NT)
 	@echo ">>> Creating conda environment."
-	conda env create --name $(PROJECT_NAME) -f environment.yaml --force
+#	conda env create --name $(PROJECT_NAME) -f environment.yaml --force
+	conda env create --name $(PROJECT_NAME) -f environment.yaml
 	@echo ">>> Activating new conda environment"
 	@call activate $(PROJECT_NAME)
 else
@@ -34,6 +36,13 @@ endif
 remove_env:
 	@echo ">>> Removing conda environment"
 	conda remove -n $(PROJECT_NAME) --all
+
+activate:
+	conda activate $(PROJECT_NAME)
+
+
+#For windows, force command prompt usage
+SHELL := cmd.exe
 
 data:
 	@echo "Creating dataset from booking_log and participant_log.."
@@ -56,13 +65,19 @@ test:
 	${BINARIES}/nosetests --nologcapture
 
 run: 
+	@$(MAKE) setup_env
+	@$(MAKE) activate
 	@$(MAKE) clean
 	@$(MAKE) data
 	@$(MAKE) features
 	@$(MAKE) train
 	@$(MAKE) predict
 	@$(MAKE) test
+	@$(MAKE) remove_env
 
 clean:
 	@find . -name "*.pyc" -exec rm {} \;
 	@rm -f data/processed/* models/* submission/*;
+
+echo_binaries:
+	@echo ${BINARIES}
