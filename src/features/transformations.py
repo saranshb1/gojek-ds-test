@@ -21,7 +21,15 @@ def hour_of_day(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def driver_historical_completed_bookings(df: pd.DataFrame) -> pd.DataFrame:
-    raise NotImplementedError(
+    
+    '''raise NotImplementedError(
         f"Show us your feature engineering skills! Suppose that drivers with a good track record are more likely to accept bookings. "
         f"Implement a feature that describes the number of historical bookings that each driver has completed."
-    )
+    )'''
+    
+    df["driver_id"] = pd.to_numeric(df["driver_id"], errors='coerce')
+    completed_trips = df[df["booking_status"] == "COMPLETED"].groupby("driver_id")
+    
+    df = df.merge(completed_trips, on="driver_id", how="left")
+    return df
+    

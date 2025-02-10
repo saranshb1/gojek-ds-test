@@ -6,7 +6,8 @@ PROJECT_NAME=work-at-gojek
 ifeq ($(OS),Windows_NT)
     HAS_PYENV=False
     CONDA_ROOT=$(shell conda info --base)
-    BINARIES = ${CONDA_ROOT}/envs/${PROJECT_NAME}/Scripts
+#   BINARIES = ${CONDA_ROOT}\envs\${PROJECT_NAME}\Scripts
+	BINARIES = ${CONDA_ROOT}\envs\${PROJECT_NAME}
 else
     ifeq (,$(shell which pyenv))
         HAS_PYENV=False
@@ -23,7 +24,7 @@ setup_env:
 ifeq ($(OS),Windows_NT)
 	@echo ">>> Creating conda environment."
 #	conda env create --name $(PROJECT_NAME) -f environment.yaml --force
-	conda env create --name $(PROJECT_NAME) -f environment.yaml
+	conda env create --name $(PROJECT_NAME) -f environment.yaml -v
 	@echo ">>> Activating new conda environment"
 	@call activate $(PROJECT_NAME)
 else
@@ -38,6 +39,7 @@ remove_env:
 	conda remove -n $(PROJECT_NAME) --all
 
 activate:
+	conda init $(PROJECT_NAME)
 	conda activate $(PROJECT_NAME)
 
 
@@ -65,15 +67,15 @@ test:
 	${BINARIES}/nosetests --nologcapture
 
 run: 
-	@$(MAKE) setup_env
-	@$(MAKE) activate
-	@$(MAKE) clean
+#	@$(MAKE) remove_env
+#	@$(MAKE) setup_env
+#	@$(MAKE) activate
+#	@$(MAKE) clean
 	@$(MAKE) data
 	@$(MAKE) features
 	@$(MAKE) train
 	@$(MAKE) predict
 	@$(MAKE) test
-	@$(MAKE) remove_env
 
 clean:
 	@find . -name "*.pyc" -exec rm {} \;
