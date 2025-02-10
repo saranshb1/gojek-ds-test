@@ -19,6 +19,11 @@ def main():
 
 
 def apply_feature_engineering(df: pd.DataFrame) -> pd.DataFrame:
+    
+    print("Original Columns:", df.columns.tolist())
+    
+    #print(df.head())
+    
     return (
         df.pipe(driver_distance_to_pickup)
         .pipe(hour_of_day)
