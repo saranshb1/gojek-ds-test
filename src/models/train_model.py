@@ -1,4 +1,4 @@
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import RandomForestClassifier, BaggingClassifier, ExtraTreesClassifier
 from sklearn.model_selection import train_test_split
 
 from src.models.classifier import SklearnClassifier
@@ -15,7 +15,7 @@ def main():
     df = store.get_processed("transformed_dataset.csv")
     df_train, df_test = train_test_split(df, test_size=config["test_size"])
 
-    rf_estimator = RandomForestClassifier(**config["random_forest"])
+    rf_estimator = ExtraTreesClassifier(**config["extra_trees"])
     model = SklearnClassifier(rf_estimator, config["features"], config["target"])
     model.train(df_train)
 
