@@ -64,13 +64,13 @@ predict:
 
 test:
 	@echo "Running all unit tests.."
-	${BINARIES}/nosetests --nologcapture
+	${BINARIES}/Scripts/nosetests --nologcapture
 
 run: 
 #	@$(MAKE) remove_env
 #	@$(MAKE) setup_env
 #	@$(MAKE) activate
-#	@$(MAKE) clean
+	@$(MAKE) clean
 	@$(MAKE) data
 	@$(MAKE) features
 	@$(MAKE) train
@@ -78,8 +78,9 @@ run:
 	@$(MAKE) test
 
 clean:
-	@find . -name "*.pyc" -exec rm {} \;
-	@rm -f data/processed/* models/* submission/*;
+#	@find . -name "*.pyc" -exec rm {} \;
+#	@rm -f data\processed\* models\* submission\*;
+	del /Q data\processed\* models\* submission\*
 
 echo_binaries:
 	@echo ${BINARIES}

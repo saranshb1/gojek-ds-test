@@ -33,6 +33,10 @@ def driver_historical_completed_bookings(df: pd.DataFrame) -> pd.DataFrame:
 #    if "booking_status_y" not in df.columns:
 #        raise KeyError("The column 'booking_status' is missing from the DataFrame!")
 
+    if 'is_completed' not in df.columns:
+        print(f"Skipping function execution: Column 'is_completed' not found in DataFrame.")
+        return df
+
     # Ensure driver_id is numeric
     df["driver_id"] = pd.to_numeric(df["driver_id"], errors="coerce")
 
