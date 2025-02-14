@@ -24,3 +24,10 @@ verbose=2
 random_state=42
 max_iter=200
 
+[gradient_boosting]
+loss="exponential"
+learning_rate=0.3
+n_estimators=400
+min_samples_split=3
+max_depth=8
+

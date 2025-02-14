@@ -25,7 +25,7 @@ class Classifier(ABC):
 
 class SklearnClassifier(Classifier):
     def __init__(
-        self, estimator: StandardScaler, features: List[str], target: str,
+        self, estimator: BaggingClassifier, features: List[str], target: str,
     ):
         self.clf = estimator
         self.features = features
